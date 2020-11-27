@@ -8,11 +8,13 @@ import com.bishe.lianghua.entity.Admin;
 import com.bishe.lianghua.entity.R;
 import com.bishe.lianghua.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 
 /**
  */
+@Service
 public class AdminServiceImpl extends ServiceImpl<AdminDao, Admin> implements AdminService {
 
     @Autowired

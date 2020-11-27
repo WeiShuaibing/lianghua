@@ -29,8 +29,8 @@ public class AdminController {
      * @return
      */
     @GetMapping("/info")
-    public R info(@RequestHeader String YQYJToken){
-        return new R(adminService.getById(YQYJToken));
+    public R info(@RequestHeader String LHToken){
+        return new R(adminService.getById(LHToken));
     }
 
     @GetMapping("/logout")

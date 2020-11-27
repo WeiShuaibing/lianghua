@@ -1,6 +1,8 @@
 package com.bishe.lianghua.entity;
 
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
@@ -9,7 +11,7 @@ import java.util.Date;
  * 课程实体类
  */
 public class Course {
-
+    @TableId(type = IdType.AUTO)
     private int courseId;
     private String name;
     private int score;

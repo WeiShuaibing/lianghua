@@ -9,6 +9,11 @@ public class Classcourserel {
     private int classId;
     private int courseId;
 
+    public Classcourserel(int classId, int courseId) {
+        this.classId = classId;
+        this.courseId = courseId;
+    }
+
     public int getClassCourseRel() {
         return classCourseRel;
     }
