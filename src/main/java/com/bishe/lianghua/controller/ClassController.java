@@ -71,4 +71,11 @@ public class ClassController {
         return classService.getPage(pageNum, pageSize);
     }
 
+    /**
+     * 获取所有的班级数据
+     */
+    @GetMapping("/getAll")
+    public R getAll() {
+        return new R(classService.list());
+    }
 }

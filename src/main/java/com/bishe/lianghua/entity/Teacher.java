@@ -1,6 +1,9 @@
 package com.bishe.lianghua.entity;
 
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
@@ -9,19 +12,16 @@ import java.util.Date;
  * 老师实体类
  */
 public class Teacher {
-
+    @TableId(type = IdType.AUTO)
     private int teaId;
-    private int classCourseRel;
+    private String classCourseRel;
+
+    @TableField(exist = false)
+    private String classCourseName;
     private String name;
     private String phone;
     private String password;
     private String remark;
-
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date createDate; //创建时间
-
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date updateDate; //更新时间
 
     @Override
     public String toString() {
@@ -32,9 +32,15 @@ public class Teacher {
                 ", phone='" + phone + '\'' +
                 ", password='" + password + '\'' +
                 ", remark='" + remark + '\'' +
-                ", createDate=" + createDate +
-                ", updateDate=" + updateDate +
                 '}';
+    }
+
+    public String getClassCourseName() {
+        return classCourseName;
+    }
+
+    public void setClassCourseName(String classCourseName) {
+        this.classCourseName = classCourseName;
     }
 
     public int getTeaId() {
@@ -45,11 +51,11 @@ public class Teacher {
         this.teaId = teaId;
     }
 
-    public int getClassCourseRel() {
+    public String getClassCourseRel() {
         return classCourseRel;
     }
 
-    public void setClassCourseRel(int classCourseRel) {
+    public void setClassCourseRel(String classCourseRel) {
         this.classCourseRel = classCourseRel;
     }
 
@@ -85,19 +91,4 @@ public class Teacher {
         this.remark = remark;
     }
 
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public Date getUpdateDate() {
-        return updateDate;
-    }
-
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
-    }
 }

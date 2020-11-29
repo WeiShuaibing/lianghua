@@ -1,49 +1,54 @@
 package com.bishe.lianghua.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
+
 /**
  * 班级和课程的关系类
  */
 public class Classcourserel {
+    @TableId
+    private Integer classCourseRel;
+    private Integer classId;
+    private Integer courseId;
+    private String scoringIds;
 
-    private int classCourseRel;
-    private int classId;
-    private int courseId;
+    public Classcourserel() {
+    }
 
     public Classcourserel(int classId, int courseId) {
         this.classId = classId;
         this.courseId = courseId;
     }
 
-    public int getClassCourseRel() {
+    public Integer getClassCourseRel() {
         return classCourseRel;
     }
 
-    public void setClassCourseRel(int classCourseRel) {
+    public void setClassCourseRel(Integer classCourseRel) {
         this.classCourseRel = classCourseRel;
     }
 
-    public int getClassId() {
+    public Integer getClassId() {
         return classId;
     }
 
-    public void setClassId(int classId) {
+    public void setClassId(Integer classId) {
         this.classId = classId;
     }
 
-    public int getCourseId() {
+    public Integer getCourseId() {
         return courseId;
     }
 
-    public void setCourseId(int courseId) {
+    public void setCourseId(Integer courseId) {
         this.courseId = courseId;
     }
 
-    @Override
-    public String toString() {
-        return "Classcourserel{" +
-                "classCourseRel=" + classCourseRel +
-                ", classId=" + classId +
-                ", courseId=" + courseId +
-                '}';
+    public String getScoringIds() {
+        return scoringIds;
+    }
+
+    public void setScoringIds(String scoringIds) {
+        this.scoringIds = scoringIds;
     }
 }

@@ -80,4 +80,12 @@ public class CourseController {
         return new R(list);
     }
 
+    /**
+     * 查询所有的课程信息以及上级所属班级信息并格式化
+     */
+    @GetMapping("/getAllCourseWithFormat")
+    public R getAllCourseWithFormat() {
+        return courseService.getAllCourseWithFormat();
+    }
+
 }
