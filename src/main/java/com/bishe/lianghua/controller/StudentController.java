@@ -29,6 +29,9 @@ public class StudentController {
     public R save(@RequestBody Student student) {
         student.setCreateDate(new Date());
         student.setUpdateDate(new Date());
+        if (student.getStuId() != 0) {
+            student.setPassword(null);
+        }
         boolean b = studentService.saveOrUpdate(student);
         if (b) {
             return new R();

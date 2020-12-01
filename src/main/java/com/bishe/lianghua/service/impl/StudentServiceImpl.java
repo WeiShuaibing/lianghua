@@ -81,4 +81,27 @@ public class StudentServiceImpl extends ServiceImpl<StudentDao, Student> impleme
         map.put("avatar", "https://s2.ax1x.com/2019/07/17/ZLWJSA.gif?imageView2/1/w/80/h/80");
         return new R(map);
     }
+
+    @Override
+    public R verifyLogin(String username, String password) {
+        QueryWrapper<Student> wrapper = Wrappers.<Student>query();
+        wrapper.eq("phone", username);
+        Student student = studentDao.selectOne(wrapper);
+        R r = new R();
+        if (student == null) {
+            r.setCode(20001);
+            r.setMsg("无此用户");
+        } else if (!student.getPassword().equals(password)) {
+            r.setCode(20001);
+            r.setMsg("密码或者用户名错误");
+        } else {
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("token","student_" + student.getStuId());
+            map.put("roles", "student");
+            map.put("username",student.getName());
+            map.put("avatar", "https://s2.ax1x.com/2019/07/17/ZLWJSA.gif?imageView2/1/w/80/h/80");
+            r.setData(map);
+        }
+        return r;
+    }
 }

@@ -33,6 +33,8 @@ public class TeacherServiceImpl extends ServiceImpl<TeacherDao, Teacher> impleme
     private ClassService classService;
     @Autowired
     private ScoringService scoringService;
+    @Autowired
+    private StudentService studentService;
 
     @Override
     public R getPage(int pageNum, int pageSize) {
@@ -77,13 +79,13 @@ public class TeacherServiceImpl extends ServiceImpl<TeacherDao, Teacher> impleme
 
     @Override
     public R verifyLogin(String username, String password) {
-        System.out.println(username + " " + password);
         QueryWrapper<Teacher> wrapper = Wrappers.<Teacher>query();
         wrapper.eq("phone", username);
         Teacher teacher = teacherDao.selectOne(wrapper);
         R r = new R();
         if (teacher == null) {
             // 去调用学生的登录接口
+            return studentService.verifyLogin(username, password);
         } else if (!teacher.getPassword().equals(password)) {
             r.setCode(20001);
             r.setMsg("密码或者用户名错误");

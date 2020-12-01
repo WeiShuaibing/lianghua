@@ -18,4 +18,6 @@ public interface StudentService extends IService<Student> {
     Page<Student> getPage(int pageNum, int pageSize, QueryWrapper query);
     R info(int stuId);
 
+    R verifyLogin(String username, String password);
+
 }
