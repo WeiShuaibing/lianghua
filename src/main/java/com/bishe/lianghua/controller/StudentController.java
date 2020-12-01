@@ -1,15 +1,14 @@
 package com.bishe.lianghua.controller;
 
-import com.bishe.lianghua.entity.R;
-import com.bishe.lianghua.entity.Student;
-import com.bishe.lianghua.entity.Teacher;
-import com.bishe.lianghua.service.StudentService;
-import com.bishe.lianghua.service.TeacherService;
+import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.bishe.lianghua.entity.*;
+import com.bishe.lianghua.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * 教师控制层
@@ -21,6 +20,12 @@ public class StudentController {
 
     @Autowired
     private StudentService studentService;
+    @Autowired
+    private ClassCourseRelService classCourseRelService;
+    @Autowired
+    private CourseService courseService;
+    @Autowired
+    private ScoreService scoreService;
 
     /**
      * 保存
@@ -92,12 +97,47 @@ public class StudentController {
     }
 
     /**
-     * 获取所有
+     * 根据Token获取我的所有课程以及成绩信息
      */
-    @GetMapping("/getAll")
-    public R getAll() {
-        return new R();
+    @GetMapping("/getMyScore")
+    public R getMyScore(@RequestHeader String LHToken) {
+
+        String stuId = LHToken.split("_")[1];
+        Student student = studentService.getById(stuId);
+        QueryWrapper<Classcourserel> query = Wrappers.<Classcourserel>query();
+        query.eq("class_id", student.getClassId());
+        List<Classcourserel> rels = classCourseRelService.list(query);
+
+        ArrayList<Map<String, Object>> res = new ArrayList<>();
+        for (Classcourserel rel : rels) {
+            Course course = courseService.getById(rel.getCourseId());
+            Score score = scoreService.getOne(Wrappers.<Score>query().eq("stu_id", stuId).eq("class_course_rel_id", rel.getClassCourseRel()));
+            ArrayList scoreList = JSON.parseObject(score.getScore(), ArrayList.class);
+            ArrayList<Map<String, Object>> setList = new ArrayList<>();
+            for (Object item : scoreList) {
+                Map scoreItemMap = JSON.parseObject(item.toString(), Map.class);
+                setList.add(scoreItemMap);
+            }
+            score.setScoreList(setList);
+            HashMap<String, Object> resMap = new HashMap<>();
+            resMap.put("student", student);
+            resMap.put("course", course);
+            resMap.put("score", score);
+            res.add(resMap);
+        }
+
+        return new R(res);
     }
 
+    /**
+     * 查询自己课程的所属老师
+     */
+    @GetMapping("/getAllMyTeacher")
+    public R getAllMyTeacher(@RequestHeader String LHToken) {
+
+
+        return new R();
+
+    }
 
 }
