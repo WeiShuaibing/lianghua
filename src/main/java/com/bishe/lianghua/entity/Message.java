@@ -1,6 +1,9 @@
 package com.bishe.lianghua.entity;
 
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
@@ -10,9 +13,12 @@ import java.util.Date;
  */
 public class Message {
 
+    @TableId(type = IdType.AUTO)
     private int messageId;
     private int stuId;
     private int teaId;
+    @TableField(exist = false)
+    private String teaName;
     private String message;
     private String reply;
 
@@ -21,6 +27,14 @@ public class Message {
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date updateDate; //更新时间
+
+    public String getTeaName() {
+        return teaName;
+    }
+
+    public void setTeaName(String teaName) {
+        this.teaName = teaName;
+    }
 
     public int getMessageId() {
         return messageId;

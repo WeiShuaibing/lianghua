@@ -21,6 +21,8 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
     @Autowired
+    private TeacherService teacherService;
+    @Autowired
     private ClassCourseRelService classCourseRelService;
     @Autowired
     private CourseService courseService;
@@ -135,8 +137,28 @@ public class StudentController {
     @GetMapping("/getAllMyTeacher")
     public R getAllMyTeacher(@RequestHeader String LHToken) {
 
+        int classId = studentService.getById(Integer.valueOf(LHToken.split("_")[1])).getClassId();
+        QueryWrapper<Classcourserel> query = Wrappers.<Classcourserel>query();
+        query.eq("class_id", classId);
+        List<Classcourserel> relList = classCourseRelService.list(query);
+        System.out.println(relList);
+        ArrayList<Integer> relIds = new ArrayList<>();
+        for (Classcourserel rel : relList) {
+            relIds.add(rel.getClassCourseRel());
+        }
+        System.out.println(relIds);
+        List<Teacher> allTea = teacherService.list();
+        ArrayList<Teacher> resultTeacher = new ArrayList<>();
+        for (Teacher teacher : allTea) {
+            for (String item : teacher.getClassCourseRel().split(",")) {
+                if (relIds.contains(Integer.valueOf(item))) {
+                    resultTeacher.add(teacher);
+                    break;
+                }
+            }
+        }
 
-        return new R();
+        return new R(resultTeacher);
 
     }
 
