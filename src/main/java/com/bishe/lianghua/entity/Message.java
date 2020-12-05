@@ -16,6 +16,8 @@ public class Message {
     @TableId(type = IdType.AUTO)
     private int messageId;
     private int stuId;
+    @TableField(exist = false)
+    private String stuName;
     private int teaId;
     @TableField(exist = false)
     private String teaName;
@@ -30,6 +32,14 @@ public class Message {
 
     public String getTeaName() {
         return teaName;
+    }
+
+    public String getStuName() {
+        return stuName;
+    }
+
+    public void setStuName(String stuName) {
+        this.stuName = stuName;
     }
 
     public void setTeaName(String teaName) {

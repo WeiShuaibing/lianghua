@@ -28,7 +28,6 @@ public class MessageController {
 
     @PostMapping("/save")
     public R save(@RequestBody Message message, @RequestHeader String LHToken) {
-        System.out.println(LHToken);
         message.setStuId(Integer.valueOf(LHToken.split("_")[1]));
         boolean save = messageService.save(message);
         if (save) {
@@ -59,4 +58,14 @@ public class MessageController {
         return new R(list);
     }
 
+    @GetMapping("/teaReply")
+    public R teaReply(@RequestParam int id,@RequestParam String reply) {
+        int i = messageService.teaReply(id, reply);
+        if (i == 1) {
+            return new R();
+        } else  {
+            return new R(20001, "服务异常，更新失败！");
+        }
+
+    }
 }

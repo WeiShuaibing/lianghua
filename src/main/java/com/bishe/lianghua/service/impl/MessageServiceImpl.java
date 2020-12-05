@@ -21,4 +21,11 @@ import java.util.HashMap;
 @Service
 public class MessageServiceImpl extends ServiceImpl<MessageDao, Message> implements MessageService {
 
+    @Autowired
+    private MessageDao messageDao;
+
+    @Override
+    public int teaReply(int id, String reply) {
+        return messageDao.teaReply(id, reply);
+    }
 }

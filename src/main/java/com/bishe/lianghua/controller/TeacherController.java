@@ -2,10 +2,10 @@ package com.bishe.lianghua.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.bishe.lianghua.entity.Course;
-import com.bishe.lianghua.entity.R;
-import com.bishe.lianghua.entity.Teacher;
+import com.bishe.lianghua.entity.*;
 import com.bishe.lianghua.service.CourseService;
+import com.bishe.lianghua.service.MessageService;
+import com.bishe.lianghua.service.StudentService;
 import com.bishe.lianghua.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +23,10 @@ public class TeacherController {
 
     @Autowired
     private TeacherService teacherService;
+    @Autowired
+    private MessageService messageService;
+    @Autowired
+    private StudentService studentService;
 
     /**
      * 保存
@@ -74,6 +78,24 @@ public class TeacherController {
         String s = LHToken.split("_")[1];
         R myCourse = teacherService.getMyCourseAllinfo(Integer.valueOf(s));
         return myCourse;
+    }
+
+    /**
+     * 获取我的留言
+     * @return
+     */
+    @GetMapping("/getMyMessage")
+    public R getMyMessage(@RequestHeader String LHToken) {
+
+        int teaId = Integer.valueOf(LHToken.split("_")[1]);
+        QueryWrapper<Message> query = Wrappers.<Message>query();
+        query.eq("tea_id", teaId).orderByDesc("message_id");
+        List<Message> list = messageService.list(query);
+        for (Message message : list) {
+            Student byId = studentService.getById(message.getStuId());
+            message.setStuName(byId == null ? "未知" : byId.getName());
+        }
+        return new R(list);
     }
 
 }

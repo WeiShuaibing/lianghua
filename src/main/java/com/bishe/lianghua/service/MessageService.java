@@ -5,5 +5,5 @@ import com.bishe.lianghua.entity.Message;
 
 public interface MessageService extends IService<Message> {
 
-
+    int teaReply(int id, String reply);
 }
