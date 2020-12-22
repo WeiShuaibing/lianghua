@@ -26,7 +26,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminDao, Admin> implements Ad
 
     @Override
     public R verifyLogin(Admin admin) {
-        if (!admin.getUsername().equals("admin")) {
+        if (!admin.getUsername().equals("admin")) { // 判断是否是管理员登录
             return teacherService.verifyLogin(admin.getUsername(), admin.getPassword());
         }
         QueryWrapper<Admin> wrapper = Wrappers.<Admin>query();
@@ -42,7 +42,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminDao, Admin> implements Ad
         } else {
             HashMap<String, Object> map = new HashMap<>();
             map.put("token","admin_" + db_admin.getId());
-            map.put("roles",db_admin.getRoles());
+            map.put("roles",db_admin.getRoles()); // 用户角色信息
             map.put("username",db_admin.getUsername());
             map.put("avatar",db_admin.getAvatar());
             map.put("create_date",db_admin.getCreateDate());

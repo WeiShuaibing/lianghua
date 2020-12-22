@@ -60,7 +60,7 @@ public class TeacherServiceImpl extends ServiceImpl<TeacherDao, Teacher> impleme
         Page<Teacher> page = new Page<>(pageNum, pageSize);
         QueryWrapper<Teacher> query = Wrappers.query();
         query.orderByDesc("tea_id");
-        query.like("name", matchStr).or().like("phone", matchStr).or().like("remark", matchStr);
+        query.like("name", matchStr).or().like("phone", matchStr).or().like("remark", matchStr).or().like("tea_id", matchStr);
         Page<Teacher> studentPage = teacherDao.selectPage(page, query);
         List<Teacher> records = studentPage.getRecords();
 

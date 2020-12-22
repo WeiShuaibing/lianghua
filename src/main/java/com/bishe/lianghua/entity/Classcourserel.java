@@ -1,12 +1,13 @@
 package com.bishe.lianghua.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 
 /**
  * 班级和课程的关系类
  */
 public class Classcourserel {
-    @TableId
+    @TableId(type = IdType.AUTO)
     private Integer classCourseRel;
     private Integer classId;
     private Integer courseId;
@@ -18,6 +19,16 @@ public class Classcourserel {
     public Classcourserel(int classId, int courseId) {
         this.classId = classId;
         this.courseId = courseId;
+    }
+
+    @Override
+    public String toString() {
+        return "Classcourserel{" +
+                "classCourseRel=" + classCourseRel +
+                ", classId=" + classId +
+                ", courseId=" + courseId +
+                ", scoringIds='" + scoringIds + '\'' +
+                '}';
     }
 
     public Integer getClassCourseRel() {

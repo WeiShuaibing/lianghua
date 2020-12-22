@@ -114,13 +114,20 @@ public class StudentController {
         for (Classcourserel rel : rels) {
             Course course = courseService.getById(rel.getCourseId());
             Score score = scoreService.getOne(Wrappers.<Score>query().eq("stu_id", stuId).eq("class_course_rel_id", rel.getClassCourseRel()));
-            ArrayList scoreList = JSON.parseObject(score.getScore(), ArrayList.class);
-            ArrayList<Map<String, Object>> setList = new ArrayList<>();
-            for (Object item : scoreList) {
-                Map scoreItemMap = JSON.parseObject(item.toString(), Map.class);
-                setList.add(scoreItemMap);
+            ArrayList scoreList = null;
+            if (score != null) {
+                scoreList = JSON.parseObject(score.getScore(), ArrayList.class);
             }
-            score.setScoreList(setList);
+
+            ArrayList<Map<String, Object>> setList = new ArrayList<>();
+            if (scoreList != null) {
+                for (Object item : scoreList) {
+                    Map scoreItemMap = JSON.parseObject(item.toString(), Map.class);
+                    setList.add(scoreItemMap);
+                }
+                score.setScoreList(setList);
+            }
+
             HashMap<String, Object> resMap = new HashMap<>();
             resMap.put("student", student);
             resMap.put("course", course);
